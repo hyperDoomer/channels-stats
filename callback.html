@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Channels Stats sign-in</title>
+<meta name="robots" content="noindex">
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:640px;margin:48px auto;padding:0 16px;color:#222;background:#fff}
+code{display:block;word-break:break-all;background:#f3f3f3;padding:12px;border-radius:8px;margin:12px 0}
+button{font:inherit;padding:10px 18px;border-radius:8px;border:0;background:#222;color:#fff}</style>
+</head><body>
+<h1>Channels Stats</h1>
+<div id="out">No code in this link.</div>
+<script>
+const q = new URLSearchParams(location.search);
+const out = document.getElementById('out');
+const code = q.get('code');
+if (code) {
+  out.innerHTML = '<p>Access granted. Copy this one-time code and send it back:</p><code id="c"></code><button id="b">Copy</button>';
+  document.getElementById('c').textContent = code.replace(/#_$/, '');
+  document.getElementById('b').onclick = () => navigator.clipboard.writeText(document.getElementById('c').textContent)
+    .then(() => { document.getElementById('b').textContent = 'Copied'; });
+} else if (q.get('error')) {
+  out.textContent = 'Access was not granted: ' + (q.get('error_description') || q.get('error'));
+}
+</script>
+</body></html>
